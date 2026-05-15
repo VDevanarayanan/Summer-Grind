@@ -1,15 +1,9 @@
-import subprocess
-import json
-import sys
-result = subprocess.run(
-    [sys.executable, "trail.py"],
-    context_output=True,
-    text=True
-)
-log = {
-    "returncode": result.returncode,
-    "stdout": result.stdout,
-    "stderr": result.stderr
-}
-with open("log.json", "w")as f:
-    json.dump(log, f, indent=4)
+import requests
+city = input("Enter city: ")
+url = f"https://wttr.in/{city}?format=j1"
+response = requests.get(url)
+data = response.json()
+temp = data["current_condition"][0]["temp_C"]
+hum = data["current_condition"][0]["humidity"]
+print(f"Temperature in {city}:{temp}\n")
+print(hum)
